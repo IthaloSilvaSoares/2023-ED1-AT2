@@ -1,149 +1,93 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-/*struct Funcionario {
-
+struct Funcionario {
     char nome[100], cargo[100];
-    int salarioBase = 0;
-    int benefi = 0;
-    int descontos = 0;
+    float salarioBase;
+    float benefi;
+    float descontos;
+    float salarioLiquido;
 
     void ler() {
         printf("Nome Funcionario: ");
         scanf("%[^\n]%*c", nome);
         printf("Cargo: ");
         scanf("%[^\n]%*c", cargo);
-        printf("Salario base: ");
-        scanf("%d%*c", &salarioBase);
+        printf("Salario base: R$");
+        scanf("%f%*c", &salarioBase);
         printf("Beneficio: ");
-        scanf("%d%*c", &benefi);
+        scanf("%f%*c", &benefi);
         printf("Descontos: ");
-        scanf("%d%*c", &descontos);
+        scanf("%f%*c", &descontos);
+
+        salarioLiquido = salarioBase + benefi - descontos;
     }
 
     void imprimir() {
-        printf("Titulo: %s\n", nome);
+        printf("Nome: %s\n", nome);
         printf("Cargo: %s\n", cargo);
-        printf("Salario: %d\n", &salarioBase);
-        printf("Salario: %d\n", &benefi);
-        printf("Desconto: %d\n", &descontos);
+        printf("Salario base: %.2f\n", salarioBase);
+        printf("Beneficio: %.2f\n", benefi);
+        printf("Descontos: %.2f\n", descontos);
+        printf("Salario Liquido: %.2f\n\n", salarioLiquido);
     }
 };
-*/
 
+struct Loja{
+    struct Funcionario funcionarios[10];
+    int quant;
 
-struct Loja {
-
-    Loja funcionario[10];
-    int quantFun;
-    char nome[100], cargo[100];
-    int salarioBase = 0;
-    int benefi = 0;
-    int descontos = 0;
-    int salarioL = 0;
-
-    void ler() {
-        printf("Nome Funcionario: ");
-        scanf("%[^\n]%*c", nome);
-        printf("Cargo: ");
-        scanf("%[^\n]%*c", cargo);
-        printf("Salario base: ");
-        scanf("%d%*c", &salarioBase);
-        printf("Beneficio: ");
-        scanf("%d%*c", &benefi);
-        printf("Descontos: ");
-        scanf("%d%*c", &descontos);
-    }
-
-    void imprimir() {
-        printf("Titulo: %s\n", nome);
-        printf("Cargo: %s\n", cargo);
-        printf("Salario: %d\n", &salarioBase);
-        printf("Salario: %d\n", &benefi);
-        printf("Desconto: %d\n", &descontos);
-        printf("Salario Liquido: %d\n", &salarioL;)
-    }
-
-
-    void lerFuncionario() {
-        if (quantFun >= 10) {
-            printf("O Máximo de funcionarios dessa impresa eh 10.\n");
-            return;
+    void ler(){
+        printf("Digite a quantidade de funcionarios: ");
+        scanf("%d%*c", &quant);
+        if(quant > 10){
+            printf("Desculpe o limite de funcionarios eh 10");
+            exit(1);
         }
-        funcionario[quantFun].ler();
-        quantFun++;
-    }
 
-    void imprimirTodos() {
-        salarioL = salarioBase + benefi - descontos;
-        if (quantFun == 0) {
-            printf("Funcionarios cheio.\n");
-            return;
-        }
-        for (int i = 0; i < quantFun; i++) {
-            funcionario[i].imprimir();
+        for (int i = 0; i < quant; i++){
+            funcionarios[i].ler();
         }
     }
 
-    void mediaLoja(){
-        for(int i = 0; i < quantFun; i++){
-        mediaLoja = salarioL[i];
+    void imprimirTotaFuncionarios(){
+        printf("\nTotal de Funcionarios: %d\n", quant);
+        for(int i = 0; i < quant; i++){
+            funcionarios[i].imprimir();
         }
     }
 
-    void maisRecebe(){
-        printf("\nFuncionario que mais recebe eh: \n");
-        funcionario[salarioL].imprimir();
+    void calcularMedia(){
+        float somaSalarios = 0;
+        for(int i = 0; i < quant; i++){
+            somaSalarios += funcionarios[i].salarioLiquido;
+        }
+        float media = somaSalarios / quant;
+        printf("Media dos Salarios da Loja: %.2f\n", media);
     }
 
-/*
+    void encontrarMaiorSalario(){
+        int funMaiorSalario = 0;
+        float maiorSalario = funcionarios[0].salarioLiquido;
 
-    void imprimirMaiorLivro() {
-        if (qtdLivros == 0) {
-            printf("Biblioteca vazia.\n");
-            return;
-        }
-        int maiorQtdPaginas = 0, indice = -1;
-        for (int i = 0; i < qtdLivros; i++) {
-            if (livros[i].numeroPaginas > maiorQtdPaginas) {
-                maiorQtdPaginas = livros[i].numeroPaginas;
-                indice = i;
+        for(int i = 1; i < quant; i++){
+            if(funcionarios[i].salarioLiquido > maiorSalario){
+                maiorSalario = funcionarios[i].salarioLiquido;
+                funMaiorSalario = i;
             }
         }
-        livros[indice].imprimir();
+
+        printf("\nFuncionario com maior Salario:\n");
+        funcionarios[funMaiorSalario].imprimir();
     }
-*/
 };
 
-int main() {
+int main(){
+    Loja l;
+    l.ler();
+    l.imprimirTotaFuncionarios();
+    l.calcularMedia();
+    l.encontrarMaiorSalario();
 
-    Loja f;
-
-    f.ler();
-    //f.totalLivros();
-    //biblioteca.numPag();
-    f.();
-    ();
-/*
-    int opcao;
-
-    do {
-        printf("1. Ler livro\n");
-        printf("2. Imprimir todos\n");
-        printf("3. Imprimir maior\n");
-        printf("0. Sair\n");
-        scanf("%d%*c", &opcao);
-        switch (opcao) {
-            case 1:
-                b.lerLivro();
-                break;
-            case 2:
-                b.imprimirTodos();
-                break;
-            case 3:
-                b.imprimirMaiorLivro();
-                break;
-        }
-     } while (opcao == 1 || opcao == 2 || opcao == 3);
-*/
     return 0;
 }
